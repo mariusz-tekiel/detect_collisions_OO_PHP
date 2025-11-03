@@ -97,6 +97,18 @@ declare(strict_types=1);
       font-weight: 600;
     }
 
+    .grid-2 label {
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .grid-2 input[type="number"] {
+      width: 95%;
+      box-sizing: border-box;
+    }
+
     .grid-2 {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
