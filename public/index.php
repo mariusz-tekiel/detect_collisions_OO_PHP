@@ -305,20 +305,24 @@ declare(strict_types=1);
         g.restore();
       }
       drawRect(x, y, w, h, color = '#a6da95', label = '') {
-        const lb = this.worldToCanvas(x, y + h);
+        // (x, y) to dolny lewy róg w układzie matematycznym
+        const topLeft = this.worldToCanvas(x, y + h);
         const g = this.ctx;
         g.save();
         g.strokeStyle = color;
         g.lineWidth = 2;
-        g.strokeRect(lb.x, lb.y, w * this.scale, -h * this.scale);
+
+        // poprawione: wysokość z dodatnim znakiem (bo worldToCanvas już odwraca oś Y)
+        g.strokeRect(topLeft.x, topLeft.y, w * this.scale, h * this.scale);
+
         if (label) {
-          const t = this.worldToCanvas(x, y);
           g.fillStyle = '#ddd';
           g.font = '12px system-ui';
-          g.fillText(label, t.x + 6, t.y - 6);
+          g.fillText(label, topLeft.x + 6, topLeft.y - 6);
         }
         g.restore();
       }
+
       drawTriangle(x1, y1, x2, y2, x3, y3, color = '#7aa2f7', label = '') {
         const p1 = this.worldToCanvas(x1, y1),
           p2 = this.worldToCanvas(x2, y2),

@@ -84,5 +84,4 @@ Konfiguracja w `phpunit.xml`, bootstrap ładuje `src/autoload.php`.
 - Zero układu jest w środku płótna. Warstwa rysująca tłumaczy te współrzędne na układ canvasa.
 
 ## Licencja
-
 MIT
