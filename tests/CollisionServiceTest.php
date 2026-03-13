@@ -160,6 +160,50 @@ final class CollisionServiceTest extends TestCase
         $this->assertTrue(C::trianglePoint($tri, new Point(0, 10)));
     }
 
+    // ── triangleCircle ────────────────────────────────────────────────────────
+
+    public function testTriangleCircleCenterInside(): void
+    {
+        // środek okręgu wewnątrz trójkąta
+        $tri = new Triangle(0, 0, 10, 0, 0, 10);
+        $this->assertTrue(C::triangleCircle($tri, new Circle(2, 2, 1)));
+    }
+
+    public function testTriangleCircleNoOverlap(): void
+    {
+        // okrąg daleko poza trójkątem
+        $tri = new Triangle(0, 0, 10, 0, 0, 10);
+        $this->assertFalse(C::triangleCircle($tri, new Circle(20, 20, 3)));
+    }
+
+    public function testTriangleCircleIntersectsEdge(): void
+    {
+        // okrąg poza trójkątem, ale przecina krawędź
+        $tri = new Triangle(0, 0, 10, 0, 0, 10);
+        $this->assertTrue(C::triangleCircle($tri, new Circle(-1, 0, 2)));
+    }
+
+    public function testTriangleCircleTouchesEdge(): void
+    {
+        // okrąg dotyka krawędzi w jednym punkcie
+        $tri = new Triangle(0, 0, 10, 0, 0, 10);
+        $this->assertTrue(C::triangleCircle($tri, new Circle(-3, 0, 3)));
+    }
+
+    public function testTriangleCircleJustOutsideEdge(): void
+    {
+        // okrąg tuż za krawędzią — brak kolizji
+        $tri = new Triangle(0, 0, 10, 0, 0, 10);
+        $this->assertFalse(C::triangleCircle($tri, new Circle(-4, 0, 3)));
+    }
+
+    public function testTriangleCircleCenterOnVertex(): void
+    {
+        // środek okręgu dokładnie w wierzchołku
+        $tri = new Triangle(0, 0, 10, 0, 0, 10);
+        $this->assertTrue(C::triangleCircle($tri, new Circle(0, 0, 1)));
+    }
+
     // ── wyjątki ───────────────────────────────────────────────────────────────
 
     public function testCircleNegativeRadius(): void

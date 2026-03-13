@@ -485,6 +485,27 @@ declare(strict_types=1);
             ['py', 'y']
           ]
         }
+      },
+      'triangle-circle': {
+        a: {
+          title: 'Trójkąt T',
+          fields: [
+            ['x1', 'x1'],
+            ['y1', 'y1'],
+            ['x2', 'x2'],
+            ['y2', 'y2'],
+            ['x3', 'x3'],
+            ['y3', 'y3']
+          ]
+        },
+        b: {
+          title: 'Koło C',
+          fields: [
+            ['cx', 'środek x'],
+            ['cy', 'środek y'],
+            ['r', 'promień']
+          ]
+        }
       }
     };
 
@@ -637,6 +658,17 @@ declare(strict_types=1);
             y3: 120,
             px: 50,
             py: 40
+          },
+          'triangle-circle': {
+            x1: 0,
+            y1: 0,
+            x2: 160,
+            y2: 0,
+            x3: 0,
+            y3: 160,
+            cx: 60,
+            cy: 40,
+            r: 30
           }
         };
         setValues(presets[caseVal]);
@@ -709,6 +741,10 @@ declare(strict_types=1);
           case 'triangle-point':
             viz.drawTriangle(A.x1, A.y1, A.x2, A.y2, A.x3, A.y3, '#7aa2f7', 'T');
             viz.drawPoint(B.x, B.y, '#a6da95', 'P');
+            break;
+          case 'triangle-circle':
+            viz.drawTriangle(A.x1, A.y1, A.x2, A.y2, A.x3, A.y3, '#7aa2f7', 'T');
+            viz.drawCircle(B.cx, B.cy, B.r, '#a6da95', 'C');
             break;
         }
       }

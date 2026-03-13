@@ -66,4 +66,36 @@ final class CollisionService
         $a3 = \abs(($t->x3-$p->x)*($t->y1-$p->y) - ($t->x1-$p->x)*($t->y3-$p->y));
         return ($a1 + $a2 + $a3) === $areaOrig;
     }
+
+    public static function triangleCircle(Triangle $t, Circle $c): bool
+    {
+        // 1. Środek okręgu wewnątrz trójkąta
+        if (self::trianglePoint($t, new Point($c->cx, $c->cy))) {
+            return true;
+        }
+
+        // 2. Okrąg przecina któryś z boków trójkąta
+        $rSq = $c->r * $c->r;
+        return
+            self::segmentDistSq($c->cx, $c->cy, $t->x1, $t->y1, $t->x2, $t->y2) <= $rSq ||
+            self::segmentDistSq($c->cx, $c->cy, $t->x2, $t->y2, $t->x3, $t->y3) <= $rSq ||
+            self::segmentDistSq($c->cx, $c->cy, $t->x3, $t->y3, $t->x1, $t->y1) <= $rSq;
+    }
+
+    // Kwadrat odległości punktu (px,py) od odcinka (ax,ay)–(bx,by)
+    private static function segmentDistSq(
+        float $px, float $py,
+        float $ax, float $ay,
+        float $bx, float $by
+    ): float {
+        $dx = $bx - $ax; $dy = $by - $ay;
+        $lenSq = $dx*$dx + $dy*$dy;
+        if ($lenSq == 0.0) {
+            return ($px-$ax)*($px-$ax) + ($py-$ay)*($py-$ay);
+        }
+        $t = \max(0.0, \min(1.0, (($px-$ax)*$dx + ($py-$ay)*$dy) / $lenSq));
+        $cx = $px - ($ax + $t*$dx);
+        $cy = $py - ($ay + $t*$dy);
+        return $cx*$cx + $cy*$cy;
+    }
 }

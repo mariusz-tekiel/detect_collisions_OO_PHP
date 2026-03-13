@@ -54,6 +54,16 @@ try {
             $b = new Point((float)$input['px'], (float)$input['py'], 'P');
             $hit = CollisionService::trianglePoint($a,$b);
             break;
+        case 'triangle-circle':
+            $a = new Triangle(
+                (float)$input['x1'], (float)$input['y1'],
+                (float)$input['x2'], (float)$input['y2'],
+                (float)$input['x3'], (float)$input['y3'],
+                'T'
+            );
+            $b = new Circle((float)$input['cx'], (float)$input['cy'], (float)$input['r'], 'C');
+            $hit = CollisionService::triangleCircle($a,$b);
+            break;
         default:
             throw new InvalidArgumentException('Unknown case');
     }
