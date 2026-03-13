@@ -54,6 +54,21 @@ try {
             $b = new Point((float)$input['px'], (float)$input['py'], 'P');
             $hit = CollisionService::trianglePoint($a,$b);
             break;
+        case 'triangle-triangle':
+            $a = new Triangle(
+                (float)$input['ax1'], (float)$input['ay1'],
+                (float)$input['ax2'], (float)$input['ay2'],
+                (float)$input['ax3'], (float)$input['ay3'],
+                'T1'
+            );
+            $b = new Triangle(
+                (float)$input['bx1'], (float)$input['by1'],
+                (float)$input['bx2'], (float)$input['by2'],
+                (float)$input['bx3'], (float)$input['by3'],
+                'T2'
+            );
+            $hit = CollisionService::triangleTriangle($a,$b);
+            break;
         case 'triangle-rect':
             $a = new Triangle(
                 (float)$input['x1'], (float)$input['y1'],

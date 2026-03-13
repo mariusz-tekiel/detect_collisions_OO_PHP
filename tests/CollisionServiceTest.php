@@ -160,6 +160,50 @@ final class CollisionServiceTest extends TestCase
         $this->assertTrue(C::trianglePoint($tri, new Point(0, 10)));
     }
 
+    // ── triangleTriangle ──────────────────────────────────────────────────────
+
+    public function testTriangleTriangleVertexInside(): void
+    {
+        $a = new Triangle(0, 0, 10, 0, 5, 10);
+        $b = new Triangle(3, 1, 7, 1, 5, 5);   // B entirely inside A
+        $this->assertTrue(C::triangleTriangle($a, $b));
+    }
+
+    public function testTriangleTriangleNoOverlap(): void
+    {
+        $a = new Triangle(0, 0, 10, 0, 5, 10);
+        $b = new Triangle(20, 0, 30, 0, 25, 10);
+        $this->assertFalse(C::triangleTriangle($a, $b));
+    }
+
+    public function testTriangleTriangleEdgeCrossOnly(): void
+    {
+        // two triangles crossing like an X — no vertex inside the other
+        $a = new Triangle(-10, 0, 10, 0, 0, 1);   // flat, horizontal
+        $b = new Triangle(0, -10, 0, 10, 1, 0);   // flat, vertical
+        $this->assertTrue(C::triangleTriangle($a, $b));
+    }
+
+    public function testTriangleTriangleSameTriangle(): void
+    {
+        $a = new Triangle(0, 0, 10, 0, 5, 10);
+        $this->assertTrue(C::triangleTriangle($a, $a));
+    }
+
+    public function testTriangleTriangleTouchingVertex(): void
+    {
+        $a = new Triangle(0, 0, 10, 0, 5, 10);
+        $b = new Triangle(5, 10, 15, 10, 10, 20);  // share vertex (5,10)
+        $this->assertTrue(C::triangleTriangle($a, $b));
+    }
+
+    public function testTriangleTriangleSeparatedVertically(): void
+    {
+        $a = new Triangle(0, 0, 10, 0, 5, 5);
+        $b = new Triangle(0, 10, 10, 10, 5, 15);
+        $this->assertFalse(C::triangleTriangle($a, $b));
+    }
+
     // ── triangleRect ──────────────────────────────────────────────────────────
 
     public function testTriangleRectVertexInsideRect(): void

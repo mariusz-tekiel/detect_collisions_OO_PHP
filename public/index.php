@@ -486,6 +486,24 @@ declare(strict_types=1);
           ]
         }
       },
+      'triangle-triangle': {
+        a: {
+          title: 'Trójkąt T1',
+          fields: [
+            ['ax1', 'x1'], ['ay1', 'y1'],
+            ['ax2', 'x2'], ['ay2', 'y2'],
+            ['ax3', 'x3'], ['ay3', 'y3']
+          ]
+        },
+        b: {
+          title: 'Trójkąt T2',
+          fields: [
+            ['bx1', 'x1'], ['by1', 'y1'],
+            ['bx2', 'x2'], ['by2', 'y2'],
+            ['bx3', 'x3'], ['by3', 'y3']
+          ]
+        }
+      },
       'triangle-rect': {
         a: {
           title: 'Trójkąt T',
@@ -681,6 +699,14 @@ declare(strict_types=1);
             px: 50,
             py: 40
           },
+          'triangle-triangle': {
+            ax1: -80, ay1: -60,
+            ax2:  80, ay2: -60,
+            ax3:   0, ay3:  80,
+            bx1:   0, by1: -80,
+            bx2:  80, by2:  60,
+            bx3: -80, by3:  60
+          },
           'triangle-rect': {
             x1: -80,
             y1: 0,
@@ -775,6 +801,10 @@ declare(strict_types=1);
           case 'triangle-point':
             viz.drawTriangle(A.x1, A.y1, A.x2, A.y2, A.x3, A.y3, '#7aa2f7', 'T');
             viz.drawPoint(B.x, B.y, '#a6da95', 'P');
+            break;
+          case 'triangle-triangle':
+            viz.drawTriangle(A.x1, A.y1, A.x2, A.y2, A.x3, A.y3, '#7aa2f7', 'T1');
+            viz.drawTriangle(B.x1, B.y1, B.x2, B.y2, B.x3, B.y3, '#a6da95', 'T2');
             break;
           case 'triangle-rect':
             viz.drawTriangle(A.x1, A.y1, A.x2, A.y2, A.x3, A.y3, '#7aa2f7', 'T');

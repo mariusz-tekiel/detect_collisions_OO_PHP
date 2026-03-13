@@ -67,6 +67,48 @@ final class CollisionService
         return ($a1 + $a2 + $a3) === $areaOrig;
     }
 
+    public static function triangleTriangle(Triangle $a, Triangle $b): bool
+    {
+        // 1. Any vertex of A inside B?
+        foreach ([
+            new Point($a->x1, $a->y1),
+            new Point($a->x2, $a->y2),
+            new Point($a->x3, $a->y3),
+        ] as $p) {
+            if (self::trianglePoint($b, $p)) return true;
+        }
+
+        // 2. Any vertex of B inside A?
+        foreach ([
+            new Point($b->x1, $b->y1),
+            new Point($b->x2, $b->y2),
+            new Point($b->x3, $b->y3),
+        ] as $p) {
+            if (self::trianglePoint($a, $p)) return true;
+        }
+
+        // 3. Any edge of A intersects any edge of B?
+        $edgesA = [
+            [$a->x1, $a->y1, $a->x2, $a->y2],
+            [$a->x2, $a->y2, $a->x3, $a->y3],
+            [$a->x3, $a->y3, $a->x1, $a->y1],
+        ];
+        $edgesB = [
+            [$b->x1, $b->y1, $b->x2, $b->y2],
+            [$b->x2, $b->y2, $b->x3, $b->y3],
+            [$b->x3, $b->y3, $b->x1, $b->y1],
+        ];
+        foreach ($edgesA as [$ax, $ay, $bx, $by]) {
+            foreach ($edgesB as [$cx, $cy, $dx, $dy]) {
+                if (self::segmentsIntersect($ax, $ay, $bx, $by, $cx, $cy, $dx, $dy)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public static function triangleRect(Triangle $t, Rectangle $r): bool
     {
         // 1. Dowolny wierzchołek trójkąta wewnątrz prostokąta?
