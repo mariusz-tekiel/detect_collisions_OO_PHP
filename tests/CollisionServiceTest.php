@@ -160,6 +160,51 @@ final class CollisionServiceTest extends TestCase
         $this->assertTrue(C::trianglePoint($tri, new Point(0, 10)));
     }
 
+    // ── triangleRect ──────────────────────────────────────────────────────────
+
+    public function testTriangleRectVertexInsideRect(): void
+    {
+        // wierzchołek trójkąta wewnątrz prostokąta
+        $tri = new Triangle(0, 0, 20, 0, 10, 20);
+        $this->assertTrue(C::triangleRect($tri, new Rectangle(-5, -5, 20, 20)));
+    }
+
+    public function testTriangleRectCornerInsideTriangle(): void
+    {
+        // narożnik prostokąta wewnątrz trójkąta
+        $tri = new Triangle(-50, -50, 50, -50, 0, 50);
+        $this->assertTrue(C::triangleRect($tri, new Rectangle(-5, -5, 10, 10)));
+    }
+
+    public function testTriangleRectEdgeCrossOnly(): void
+    {
+        // krawędź trójkąta przecina prostokąt, żaden wierzchołek nie jest wewnątrz
+        // trójkąt: (-100,5),(100,5),(0,5.5) — płaski pasek przy y≈5
+        // prostokąt: x∈[-1,1], y∈[4,6] — krawędź trójkąta przechodzi przez środek
+        $tri = new Triangle(-100, 5, 100, 5, 0, 6);
+        $this->assertTrue(C::triangleRect($tri, new Rectangle(-1, 4, 2, 2)));
+    }
+
+    public function testTriangleRectNoOverlap(): void
+    {
+        $tri = new Triangle(0, 0, 10, 0, 5, 10);
+        $this->assertFalse(C::triangleRect($tri, new Rectangle(20, 20, 10, 10)));
+    }
+
+    public function testTriangleRectSeparatedByGap(): void
+    {
+        // trójkąt po lewej, prostokąt po prawej — brak kolizji
+        $tri = new Triangle(0, 0, 5, 0, 2, 5);
+        $this->assertFalse(C::triangleRect($tri, new Rectangle(10, 0, 5, 5)));
+    }
+
+    public function testTriangleRectRectInsideTriangle(): void
+    {
+        // prostokąt całkowicie wewnątrz dużego trójkąta
+        $tri = new Triangle(-100, -100, 100, -100, 0, 100);
+        $this->assertTrue(C::triangleRect($tri, new Rectangle(-5, -10, 10, 10)));
+    }
+
     // ── triangleCircle ────────────────────────────────────────────────────────
 
     public function testTriangleCircleCenterInside(): void

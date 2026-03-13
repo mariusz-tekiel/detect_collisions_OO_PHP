@@ -486,6 +486,28 @@ declare(strict_types=1);
           ]
         }
       },
+      'triangle-rect': {
+        a: {
+          title: 'Trójkąt T',
+          fields: [
+            ['x1', 'x1'],
+            ['y1', 'y1'],
+            ['x2', 'x2'],
+            ['y2', 'y2'],
+            ['x3', 'x3'],
+            ['y3', 'y3']
+          ]
+        },
+        b: {
+          title: 'Prostokąt R (LB corner)',
+          fields: [
+            ['rx', 'x'],
+            ['ry', 'y'],
+            ['rw', 'szerokość'],
+            ['rh', 'wysokość']
+          ]
+        }
+      },
       'triangle-circle': {
         a: {
           title: 'Trójkąt T',
@@ -659,6 +681,18 @@ declare(strict_types=1);
             px: 50,
             py: 40
           },
+          'triangle-rect': {
+            x1: -80,
+            y1: 0,
+            x2: 80,
+            y2: 0,
+            x3: 0,
+            y3: 140,
+            rx: -30,
+            ry: 20,
+            rw: 60,
+            rh: 50
+          },
           'triangle-circle': {
             x1: 0,
             y1: 0,
@@ -741,6 +775,10 @@ declare(strict_types=1);
           case 'triangle-point':
             viz.drawTriangle(A.x1, A.y1, A.x2, A.y2, A.x3, A.y3, '#7aa2f7', 'T');
             viz.drawPoint(B.x, B.y, '#a6da95', 'P');
+            break;
+          case 'triangle-rect':
+            viz.drawTriangle(A.x1, A.y1, A.x2, A.y2, A.x3, A.y3, '#7aa2f7', 'T');
+            viz.drawRect(B.x, B.y, B.w, B.h, '#a6da95', 'R');
             break;
           case 'triangle-circle':
             viz.drawTriangle(A.x1, A.y1, A.x2, A.y2, A.x3, A.y3, '#7aa2f7', 'T');
